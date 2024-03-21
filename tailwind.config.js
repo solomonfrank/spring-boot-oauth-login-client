@@ -1,0 +1,43 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    fontSize: {
+      xs: ["1.3rem", "1.2"],
+      sm: ["1.4rem", "1"],
+      md: ["1.6rem", "1"],
+      lg: "1.8rem",
+      xl: ["2.2rem", "1.3"],
+      "2xl": "2.4rem",
+      "3xl": "2.6rem",
+      "4xl": "3.8rem",
+      "5xl": "4rem",
+      "6xl": ["4.2rem", "1"],
+      "8xl": ["8rem", "1"],
+    },
+    spacing: {
+      0: "0",
+      1: "0.4rem",
+      2: "0.8rem",
+      3: "1.2rem",
+      4: "1.6rem",
+      5: "2rem",
+      6: "2.4rem",
+      7: "2.8rem",
+      8: "3.2rem",
+      9: "3.6rem",
+      10: "4rem",
+      11: "4.4rem",
+      12: "4.8rem",
+      13: "5.2rem",
+      14: "5.6rem",
+      15: "6rem",
+      16: "6.4rem",
+    },
+    fontFamily: {
+      sans: ["Inter"],
+    },
+    extend: {},
+  },
+  plugins: [],
+};
