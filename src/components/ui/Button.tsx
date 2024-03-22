@@ -20,7 +20,7 @@ type ButtonProps = VariantProps<typeof buttonClasses> & {
   );
 
 const buttonClasses = cva(
-  "inline-flex items-center rounded-md gap-2  text-md justify-center border border-slate-400 bg-white py-4 cursor-pointer",
+  "inline-flex items-center rounded-md gap-2  text-md justify-center border border-slate-400 py-4 cursor-pointer",
   {
     variants: {
       variant: {

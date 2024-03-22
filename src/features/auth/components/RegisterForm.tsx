@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { SignRequestDto, signupWithEmailAndPassword } from "../api/signup";
 import { Layout } from "./Layout";
 
@@ -19,6 +20,7 @@ type FormValue = {
 
 export const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const methods = useForm<FormValue>({
     resolver: zodResolver(signupSchema),
     mode: "onChange",
@@ -33,9 +35,12 @@ export const RegisterForm = () => {
         name: data.name,
         username: "",
       };
-      const response = await signupWithEmailAndPassword(payload);
+      await signupWithEmailAndPassword(payload);
       setLoading(false);
-      console.log("ress", response);
+
+      toast.success("Signed up successfully.");
+
+      navigate("/auth/login");
     } catch (ex) {
       setLoading(false);
 
@@ -113,7 +118,7 @@ export const RegisterForm = () => {
               type="submit"
               size="medium"
               loading={loading}
-              className="w-full bg-black text-black  p-2 rounded-md my-2"
+              className="w-full bg-black text-white  p-2 rounded-md my-2"
             >
               Sign up
             </Button>
@@ -129,6 +134,9 @@ export const RegisterForm = () => {
           className="w-full bg-transparent text-black  p-2 rounded-md my-2"
         >
           Sign up with Google
+        </Button>
+        <Button href="/auth/login" size="medium" className="border-none">
+          Alreay have an account? Login here.
         </Button>
       </div>
     </Layout>

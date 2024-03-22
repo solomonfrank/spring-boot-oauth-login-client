@@ -4,9 +4,14 @@ import { BookingResponse } from "../type";
 
 import { TIMEFORMAT } from "@/libs/date-fns";
 import dayjs from "@/libs/dayjs";
+import { useParams } from "react-router-dom";
 
 export const Booking = () => {
   const [booking, setBooking] = useState<BookingResponse[] | null>(null);
+
+  const params = useParams();
+  console.log("params", params);
+  console.log("dynamam", Object.keys(params));
   useEffect(() => {
     const getBooking = async () => {
       const response = await getUserBooking();

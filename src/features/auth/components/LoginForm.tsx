@@ -86,7 +86,7 @@ export const LoginForm = () => {
               type="submit"
               size="medium"
               loading={loading}
-              className="w-full bg-black text-black  p-2 rounded-md my-2"
+              className="w-full bg-[#000] text-white  p-2 rounded-md my-2"
             >
               Sign in
             </Button>
@@ -102,6 +102,10 @@ export const LoginForm = () => {
           className="w-full bg-transparent text-black  p-2 rounded-md my-2"
         >
           Sign in with Google
+        </Button>
+
+        <Button href="/auth/signup" size="medium" className="border-none">
+          Don't have an account? Sign up here.
         </Button>
       </div>
     </Layout>

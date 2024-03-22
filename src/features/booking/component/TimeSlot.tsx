@@ -233,7 +233,7 @@ export const TimeSlot = ({
               size="medium"
               loading={loading}
               disabled={loading}
-              className="w-full bg-black text-black  p-2 rounded-md my-2"
+              className="w-full bg-black text-white  p-2 rounded-md my-2"
             >
               Schedule Event
             </Button>

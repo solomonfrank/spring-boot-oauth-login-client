@@ -16,13 +16,10 @@ export const CreateEvent = () => {
 
   const user = getUser();
 
-  console.log("User", user);
-
   const [openCreateEventDialog, setOpenCreateEventDialog] = useState(false);
   useEffect(() => {
     const getEvents = async () => {
       const response = await getEventHandler();
-      console.log("response", response);
       setEvents(response);
     };
 
@@ -64,9 +61,9 @@ export const CreateEvent = () => {
             </div>
 
             <CopyToClipboard
-              text={`${import.meta.env.VITE_APPLICATION_URL}/${user?.sub}/${
-                item.slug
-              }`}
+              text={`${import.meta.env.VITE_APPLICATION_URL}/bookme/${
+                user?.sub
+              }/${item.slug}`}
               onCopy={() => toast.success("Invitation link copied")}
             >
               <Button
