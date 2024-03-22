@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/Button";
 import { loginSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LoginRequestDto, loginWithEmailAndPassword } from "../api/login";
 import { Layout } from "./Layout";
 
@@ -17,6 +17,9 @@ type FormValue = {
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log("myli", location.state);
   const [loading, setLoading] = useState(false);
   const methods = useForm<FormValue>({
     resolver: zodResolver(loginSchema),
@@ -51,6 +54,12 @@ export const LoginForm = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (location.state && location.state.error) {
+      toast.error(location.state.error);
+    }
+  }, []);
 
   const { register, handleSubmit } = methods;
   return (
