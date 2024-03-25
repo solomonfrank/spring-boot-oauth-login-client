@@ -1,3 +1,4 @@
+import { axios } from "@/libs/axios";
 import { getUser } from "@/libs/jwt-decode";
 import { VideoCameraOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
@@ -6,7 +7,8 @@ import React from "react";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineEventAvailable } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../ui/Button";
 
 const { Content, Sider } = Layout;
 
@@ -52,6 +54,7 @@ type MainLayoutProps = {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   const user = getUser();
+  const navigate = useNavigate();
 
   const items = navigationItems.map((item) => {
     return getItem(
@@ -62,6 +65,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       item.icon
     );
   });
+
+  const handleLogout = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
+    axios
+      .post("/auth/logout")
+      .then(() => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
+        navigate("/");
+      })
+      .catch((err) => console.log("errrrr", err));
+  };
 
   return (
     <Layout hasSider>
@@ -100,6 +115,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             overflow: "initial",
           }}
         >
+          <div className="flex justify-end">
+            <Button onClick={handleLogout} className="border-none">
+              Logout
+            </Button>
+          </div>
+
           {children}
         </Content>
       </Layout>
