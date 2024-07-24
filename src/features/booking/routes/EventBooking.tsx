@@ -2,7 +2,7 @@ import { EventProps } from "@/types";
 import { useEffect, useState } from "react";
 import Calendar, { TileArgs } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { FaClock, FaGlobe } from "react-icons/fa";
+import { FaClock, FaGlobe, FaMoneyBill } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { getEventBySlugHandler } from "../api/getEventBySlug";
 
@@ -94,6 +94,13 @@ export const EventBooking = () => {
               <FaGlobe color="gray" />
             </span>
             <span>{getTimeZone()}</span>
+          </div>
+
+          <div className="text-md flex gap-1 mt-3">
+            <span>
+              <FaMoneyBill color="gray" />
+            </span>
+            <span>{eventDetail?.price ?? "Free"}</span>
           </div>
         </div>
         <div className="basis-1/2 p-5">

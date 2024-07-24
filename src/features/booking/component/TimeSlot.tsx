@@ -18,6 +18,8 @@ import {
 } from "../api/scheduleEvent";
 import { bookSchema } from "../utils/schema";
 
+import PaystackPop from "@paystack/inline-js";
+import { verifyBookingPayment } from "../api/verifyPayment";
 export type TimeSlotProps = {
   format: TIMEFORMAT;
   selectedDate?: Date | null;
@@ -62,6 +64,20 @@ export const TimeSlot = ({
 
   const { handleSubmit, register } = methods;
 
+  const successHandler = async (transaction: Record<string, string>) => {
+    try {
+      const reference = transaction?.reference as string;
+
+      const response = await verifyBookingPayment(reference);
+      console.log("success", response);
+
+      toast.success("Successfully paid for the event");
+    } catch (err) {
+      console.log("payment error", err);
+      toast.error("Something went wrong");
+    }
+  };
+
   const onSubmit = async (data: FormValue) => {
     try {
       setLoading(true);
@@ -85,7 +101,36 @@ export const TimeSlot = ({
         eventTypeId: eventDetail?.id as number,
       };
 
-      await scheduleEventHandler(payload);
+      const response = await scheduleEventHandler(payload);
+
+      console.log("response", response);
+
+      if (response.paymentResponse) {
+        const popup = new PaystackPop();
+        //  popup.resumeTransaction(response.paymentData?.accessCode);
+
+        popup.newTransaction({
+          key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+          email: data.email,
+          amount: Number(response.paymentResponse.amount),
+          currency: "NGN",
+          channels: ["card"],
+          ref: response?.paymentResponse?.reference,
+          onSuccess: (transaction: Record<string, string>) => {
+            console.log(transaction);
+            successHandler(transaction);
+          },
+          onLoad: (response: unknown) => {
+            console.log("onLoad: ", response);
+          },
+          onCancel: () => {
+            console.log("onCancel");
+          },
+          onError: (error: unknown) => {
+            console.log("Error: ", error);
+          },
+        });
+      }
 
       setLoading(false);
       toast.success("Event booked successfully");

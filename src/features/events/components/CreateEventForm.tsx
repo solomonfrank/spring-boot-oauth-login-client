@@ -4,8 +4,9 @@ import { createEventSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { NumericFormat } from "react-number-format";
 import { createEventHandler } from "../api/createEvent";
 
 type CreateEventFormProps = {
@@ -17,6 +18,7 @@ export type FormValue = {
   title: string;
   duration: number;
   description: string;
+  price: string;
 };
 export const CreateEventForm = ({ onClose, reload }: CreateEventFormProps) => {
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,14 @@ export const CreateEventForm = ({ onClose, reload }: CreateEventFormProps) => {
     try {
       setLoading(true);
 
-      const response = await createEventHandler(data);
+      const payload = {
+        ...data,
+        price: data.price.replace(/[,NGN\s]/g, ""),
+      };
+
+      console.log("daaaa", payload);
+
+      const response = await createEventHandler(payload);
 
       console.log("response", response);
 
@@ -97,6 +106,36 @@ export const CreateEventForm = ({ onClose, reload }: CreateEventFormProps) => {
             inputMode="numeric"
             name="duration"
             type="number"
+          />
+        </div>
+
+        <div className="mb-4">
+          <Controller
+            name="price"
+            control={methods.control}
+            rules={{
+              required: "Fraud indicator is required.",
+            }}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <>
+                  <label>Name</label>
+                  <NumericFormat
+                    thousandSeparator
+                    prefix="NGN "
+                    value={value}
+                    allowLeadingZeros={true}
+                    onChange={(e) => {
+                      console.log("eeeee", e.target.value);
+
+                      onChange(e);
+                    }}
+                    name="price"
+                    className="w-full rounded-md placeholder:text-sm mt-0 text-md  block py-2 px-3 focus-within:outline-none  border border-slate-300 focus-within:ring-2 focus-within:ring-slate-900"
+                  />
+                </>
+              );
+            }}
           />
         </div>
 

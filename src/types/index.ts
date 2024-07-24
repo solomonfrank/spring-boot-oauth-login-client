@@ -3,6 +3,13 @@ export type UserResponse = {
   token: string;
 };
 
+export type PaystackInitializeResponse = {
+  accessCode: string;
+  reference: string;
+  amount: string;
+  authorizationUrl: string;
+};
+
 export type EventProps = {
   title: string;
   duration: number;
@@ -10,4 +17,6 @@ export type EventProps = {
   slug?: string;
   owner?: string;
   id: number;
+  price: number;
+  paymentResponse?: PaystackInitializeResponse;
 };
