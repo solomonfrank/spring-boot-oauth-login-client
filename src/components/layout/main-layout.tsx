@@ -10,6 +10,26 @@ import { RxDashboard } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
 
+import dayjs from "@/libs/dayjs";
+
+const getGreeting = () => {
+  const timeZone = dayjs.tz.guess();
+
+  const currentTime = dayjs().tz(timeZone);
+
+  const hour = currentTime.hour();
+
+  if (hour >= 5 && hour < 12) {
+    return "Good morning";
+  } else if (hour >= 12 && hour < 17) {
+    return "Good afternoon";
+  } else if (hour >= 17 && hour < 21) {
+    return "Good evening";
+  } else {
+    return "Good night";
+  }
+};
+
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -78,6 +98,17 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       .catch((err) => console.log("errrrr", err));
   };
 
+  const getFirstName = () => {
+    const user = getUser();
+
+    if (user && user.fullName) {
+      const nameArray = user.fullName.split(" ");
+
+      return nameArray[0];
+    }
+    return;
+  };
+
   return (
     <Layout hasSider>
       <Sider
@@ -90,7 +121,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           bottom: 0,
         }}
       >
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between h-full py-5">
           <Menu
             theme="dark"
             mode="inline"
@@ -115,13 +146,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             overflow: "initial",
           }}
         >
-          <div className="flex justify-end">
-            <Button onClick={handleLogout} className="border-none">
-              Logout
-            </Button>
-          </div>
+          <section>
+            <div className="flex items-center mb-5">
+              <h4 className="text-lg mr-auto">{`${getGreeting()} ${getFirstName()}!`}</h4>
 
-          {children}
+              <div className="flex justify-end">
+                <Button onClick={handleLogout} className="border">
+                  Logout
+                </Button>
+              </div>
+            </div>
+            {children}
+          </section>
         </Content>
       </Layout>
     </Layout>

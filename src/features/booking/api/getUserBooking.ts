@@ -1,6 +1,10 @@
 import { axios } from "@/libs/axios";
-import { BookingResponse } from "../type";
+import { PagedBookingResponse } from "../type";
 
-export const getUserBooking = (): Promise<BookingResponse[]> => {
-  return axios.get(`/booking`);
+export const getUserBooking = (
+  filter: Record<string, string>
+): Promise<PagedBookingResponse> => {
+  const query = new URLSearchParams(filter).toString();
+
+  return axios.get(`/booking?${query}`);
 };

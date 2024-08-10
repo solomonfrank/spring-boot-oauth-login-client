@@ -33,5 +33,11 @@ export const createEventSchema = z.object({
   title: z.string().trim().min(1, { message: "Title is required." }),
   duration: z.string().trim().min(1, { message: "Duration is required" }),
   description: z.string().trim(),
-  price: z.string().trim(),
+  price: z.string().trim().optional(),
+  location: z
+    .object({
+      label: z.string(),
+      value: z.string(),
+    })
+    .optional(),
 });

@@ -1,3 +1,4 @@
+import { CalendarRedirect } from "@/features/auth/routes/CalendarRedirect";
 import { Login } from "@/features/auth/routes/Login";
 import { EventBooking } from "@/features/booking/routes";
 import { Landing } from "@/features/home/route/Landing";
@@ -10,6 +11,8 @@ export const AppRoutes = () => {
   const commonRoutes = [
     { path: "/", element: <Landing /> },
     { path: "/auth/login", element: <Login /> },
+    { path: "/auth/login", element: <Login /> },
+    { path: "/auth/calendar/callback", element: <CalendarRedirect /> },
     { path: "*", element: <Navigate to="/auth/login" /> },
 
     {

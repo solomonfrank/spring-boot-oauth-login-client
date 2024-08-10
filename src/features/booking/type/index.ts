@@ -12,3 +12,10 @@ export type BookingResponse = {
   bookStatus: string;
   attendee: Attendee;
 };
+
+export type PagedBookingResponse = {
+  data: BookingResponse[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+};
